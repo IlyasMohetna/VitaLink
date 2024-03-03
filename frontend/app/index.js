@@ -1,55 +1,16 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { Link } from 'expo-router';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 
-export default function LandingPage() {
-
-  const handleLogin = () => {
-    
-  };
-
-  const handleCreateAccount = () => {
-    
-  };
-
-  return (
-    <SafeAreaView className="container px-7 bg-white h-full">
-      <View className="flex justify-center items-center mt-20">
-        <View className="mb-8">
-          <Image
-            style={{width: 400, height: 300}}
-            source={{
-              uri: 'https://www.neoito.com/blog/wp-content/uploads/2023/03/AI-in-Healthcare-Revolutionizing-the-Way-to-Treat-Patients.png',
-            }}
-          />
-        </View>
+const First = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color="gray" />
       </View>
-      <Text className="text-4xl font-extrabold text-textDark">
-          VitaLink
-      </Text>
-      <Text className="text-sm opacity-60 text-textDark tracking-tight">
-        Votre application santé en relation avec l'IA
-      </Text>
-      <View className="mt-6">
+    );
+  }
+  return null;
+};
 
-      <Link href={"/login"} asChild>
-        <TouchableOpacity className="py-3 mt-3 rounded-xl border-2 bg-black">
-          <Text className="text-base text-center text-white">
-            Se connecter
-          </Text>
-        </TouchableOpacity>
-      </Link>
-
-      <Link href={"/code_signup"}  asChild>
-        <TouchableOpacity className="py-3 mt-3 rounded-xl bg-white border-2 border-black">
-          <Text className="text-base text-center text-black">
-            Créer un compte
-          </Text>
-        </TouchableOpacity>
-      </Link>
-
-      </View> 
-    </SafeAreaView>
-  );
-}
+export default First;

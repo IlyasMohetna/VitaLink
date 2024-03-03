@@ -1,10 +1,17 @@
-import { Tabs } from "expo-router";
+import { router, Tabs } from 'expo-router';
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { AuthContext } from '../../context/AuthProvider';
+import { useContext } from 'react';
 
 export default function PatientLayout() {
+    // const { user } = useContext(AuthContext); // Accessing user state via contextr
+    // if (!user) {
+    //     router.replace('login');
+    // }
+
     return(
         <GestureHandlerRootView style={{ flex: 1}}>
             <Tabs>

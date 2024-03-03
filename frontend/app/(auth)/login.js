@@ -1,26 +1,20 @@
-import { useState, React } from 'react';
+import React, { useState, useContext } from 'react';
 import {View, Text, TouchableOpacity, TextInput, Image} from 'react-native';
 import { Link } from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { AuthContext  } from '../../context/AuthProvider';
 
 export default function LoginPage() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-  const handleLogin = () => {
-    
-  };
-
-  const handleCreateAccount = () => {
-    
-  };
-
+    const { login, error, isLoading } = useContext(AuthContext);
   return (
     <SafeAreaView className="container px-7 bg-white h-full">
         <View className="mt-40">
             <Text className="text-4xl font-extrabold text-textDark">
-            VitaLink
+                VitaLink
             </Text>
 
             <View className="mt-4">
@@ -40,6 +34,8 @@ export default function LoginPage() {
                 className="bg-zinc-200 py-3 rounded-xl pl-5 mt-3"
             />
 
+            {error && <Text className="font-bold mt-2 text-red-500">{error}</Text>}
+
             <TouchableOpacity
                 className="flex items-end mt-2"
                 onPress={() => router.goBack()}>
@@ -49,7 +45,9 @@ export default function LoginPage() {
             </TouchableOpacity>
         </View>
 
-        <TouchableOpacity className="py-3 mt-3 rounded-xl border-2 bg-black">
+        <TouchableOpacity 
+            onPress={() => login(email, password)}
+            className="py-3 mt-3 rounded-xl border-2 bg-black">
             <Text className="text-base text-center text-white">
                 Se connecter
             </Text>
