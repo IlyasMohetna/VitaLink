@@ -15,6 +15,12 @@ export default function PatientLayout() {
     return(
         <GestureHandlerRootView style={{ flex: 1}}>
             <Tabs>
+                <Tabs.Screen name="home" options={{
+                    title:'Accueil',
+                    tabBarIcon: ({size, color}) => (
+                        <AntDesign name="home" size={24} color="black" />
+                    )
+                }} />
                 <Tabs.Screen name="appointments" options={{
                     title:'Mes RDV',
                     tabBarIcon: ({size, color}) => (
