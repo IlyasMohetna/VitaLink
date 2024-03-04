@@ -1,10 +1,37 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { FlatList, sliderList, Image, View, Text } from 'react-native'
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { AuthContext } from '../../context/AuthProvider';
 
+const navig = [
+  {
+    url: "https://ideausher.com/wp-content/uploads/2022/10/Cover-Image-AI-for-medical-diagnosis-1.webp"
+  },
+  {
+    url: "https://www.easel.ly/blog/wp-content/uploads/2020/03/health-care-infographic-templates.jpg"
+  },
+  {
+    url: "https://www.cignaglobal.com/static/images/blog/healthcare.webp"
+  }
+];
 const Home = () => {
+  const { user } = useContext(AuthContext);
+
   return (
-    <View>
-      <Text>accueil</Text>
+    <View className="px-4 mt-4">
+      <View className=" flex-row">
+        <Text className="text-2xl">Bienvenu</Text>
+        <Text className="text-2xl font-bold ml-2">{user.name}</Text>
+      </View>
+      <View className="mt-5">
+      <FlatList data={navig} horizontal={true} showsHorizontalScrollIndicator={true} renderItem={({item, index}) => (
+           <View>
+           <Image
+             className="h-[180px] w-[350px] mr-3 rounded-lg object-cover"
+             source={{uri:item?.url}} 
+           />
+       </View>
+      )}/>
+    </View>
     </View>
   )
 }

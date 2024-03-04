@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Link } from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import { Drawer, Colors } from 'react-native-ui-lib';
 
 export default function LandingPage() {
 
@@ -48,7 +49,6 @@ export default function LandingPage() {
           </Text>
         </TouchableOpacity>
       </Link>
-
       </View> 
     </SafeAreaView>
   );
