@@ -7,6 +7,11 @@ import { AuthContext } from '../../context/AuthProvider';
 import { useContext } from 'react';
 
 export default function PatientLayout() {
+    // const { user } = useContext(AuthContext); // Accessing user state via contextr
+    // if (!user) {
+    //     router.replace('login');
+    // }
+
     return(
         <GestureHandlerRootView style={{ flex: 1}}>
             <Tabs>

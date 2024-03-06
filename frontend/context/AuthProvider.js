@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import axiosConfig from '../helpers/axiosConfig';
 import { router } from 'expo-router';
+import { useProtectedRoute } from "../hooks/useProtectedRoute";
 
 export const AuthContext = createContext();
 
@@ -9,16 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    console.log('evoked');
-  if (user) {
-    console.log('called');
-    router.replace("/appointments");
-  } else {
-    router.replace("/landing");
-  }
-}, [user]);
+  useProtectedRoute(user);
 
   return (
     <AuthContext.Provider
