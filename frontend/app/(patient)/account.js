@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { AuthContext  } from '../../context/AuthProvider';
 
@@ -25,7 +25,10 @@ const Account = () => {
     <View className="flex-1 bg-white" >
       <TouchableOpacity className="flex-row items-center p-4 border-b border-gray-200" onPress={() => logout()}>
         <Icon name="exit-to-app" size={24} color="black" className="mr-4" />
-        <Text className="text-lg">Déconnexion</Text>
+        <View className="flex-1">
+          <Text className="text-lg">Déconnexion</Text>
+        </View>
+        {isLoading && <ActivityIndicator />}
       </TouchableOpacity>
     </View>
   )

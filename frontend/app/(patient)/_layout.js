@@ -2,6 +2,7 @@ import { router, Tabs } from 'expo-router';
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthProvider';
 import { useContext } from 'react';
@@ -22,10 +23,10 @@ export default function PatientLayout() {
                         <AntDesign name="calendar" size={24} color="black" />
                     )
                 }} />
-                <Tabs.Screen name="calls" options={{
-                    title:'Mes appels',
+                <Tabs.Screen name="consultations" options={{
+                    title:'Consultation',
                     tabBarIcon: ({size, color}) => (
-                        <MaterialIcons name="call-end" size={24} color="black" />
+                        <Octicons name="comment-discussion" size={24} color="black" />
                     )
                 }} />
                 <Tabs.Screen name="doctors" options={{

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import {View, Text, TouchableOpacity, TextInput, Image} from 'react-native';
+import {View, Text, ActivityIndicator, TouchableOpacity, TextInput, Image} from 'react-native';
 import { Link } from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -9,7 +9,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login, error, isLoading } = useContext(AuthContext);
+    const {login, error, isLoading } = useContext(AuthContext);
   return (
     <SafeAreaView className="container px-7 bg-white h-full">
         <View className="mt-40">
@@ -48,9 +48,14 @@ export default function LoginPage() {
         <TouchableOpacity 
             onPress={() => login(email, password)}
             className="py-3 mt-3 rounded-xl border-2 bg-black">
+            {
+            isLoading ?
+            <ActivityIndicator />
+            :
             <Text className="text-base text-center text-white">
-                Se connecter
+            Se connecter
             </Text>
+            }
         </TouchableOpacity>
 
         <View className="flex flex-row items-center justify-center mt-4">

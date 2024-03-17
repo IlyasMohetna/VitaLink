@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const Calls = () => {
+const Consultations = () => {
   return (
     <View>
       <Text>cdallssss</Text>
@@ -9,4 +9,4 @@ const Calls = () => {
   )
 }
 
-export default Calls
+export default Consultations
