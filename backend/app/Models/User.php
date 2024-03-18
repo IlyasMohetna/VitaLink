@@ -42,4 +42,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    
+    public function identity()
+    {
+        return $this->query()
+            ->when($this->type == 'patient', function ($q) {
+                return $q->with('patient');
+            })
+            ->when($this->type == 'doctor', function ($q) {
+                return $q->with('doctor');
+            });
+    }
+
+    public function patient()
+    {
+        return $this->hasOne(Patient::class, 'user_id', 'id');
+    }
+
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class, 'user_id', 'id');
+    }
 }

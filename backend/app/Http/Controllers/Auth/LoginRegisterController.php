@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Patient;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -74,6 +76,14 @@ class LoginRegisterController extends Controller
         // Check email exist
         $user = User::where('email', $request->email)->first();
 
+        if($user->type == 'patient'){
+            $identity = Patient::where('user_id', $user->id)->first();
+        }elseif($user->type == 'doctor'){
+            $identity = Patient::where('user_id', $user->id)->first();
+        }else{
+            dd('stop');
+        }
+
         // Check password
         if(!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
@@ -84,6 +94,7 @@ class LoginRegisterController extends Controller
 
         $data['token'] = $user->createToken($request->email)->plainTextToken;
         $data['user'] = $user;
+        $data['identity'] = $identity;
         
         $response = [
             'status' => 'success',
