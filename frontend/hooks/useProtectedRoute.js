@@ -14,7 +14,9 @@ export function useProtectedRoute(user) {
     ) {
       router.push("/login");
     } else if (user && inAuthGroup) {
-      router.navigate("/appointments");
+      if(user.type == 'patient'){
+        router.navigate("(patient)/home");
+      }
     }else if (isUndefined) {
         router.navigate('/landing');
     }

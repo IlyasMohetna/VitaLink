@@ -28,11 +28,13 @@ export const AuthProvider = ({ children }) => {
               device_name: 'mobile',
             })
             .then(response => {
+              console.log(response.data);
               const userResponse = {
                 token: response.data.data.token,
                 id: response.data.data.user.id,
                 name: response.data.data.user.name,
-                email: response.data.data.user.email
+                email: response.data.data.user.email,
+                type: response.data.data.user.type
               };
               setUser(userResponse);
               setError(null);
