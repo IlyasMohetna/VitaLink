@@ -34,18 +34,10 @@ export default function LandingPage() {
         </TouchableOpacity>
       </Link>
 
-      <Link href={"/code_signup"}  asChild>
+      <Link href={"/signup"}  asChild>
         <TouchableOpacity className="py-3 mt-3 rounded-xl bg-white border-2 border-black">
           <Text className="text-base text-center text-black">
             Créer un compte
-          </Text>
-        </TouchableOpacity>
-      </Link>
-
-      <Link href={"/appointments"}  asChild>
-        <TouchableOpacity className="py-3 mt-3 rounded-xl bg-white border-2 border-black">
-          <Text className="text-base text-center text-black">
-            Go
           </Text>
         </TouchableOpacity>
       </Link>

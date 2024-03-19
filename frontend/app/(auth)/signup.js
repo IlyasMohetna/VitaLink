@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { AntDesign } from '@expo/vector-icons';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 const SignupPage = () => {
     const { control, handleSubmit, watch, formState: { errors } } = useForm({
@@ -12,6 +13,7 @@ const SignupPage = () => {
           phone: '',
           password: '',
           confirmPassword: '',
+          dob: new Date(),
         }
       });
     
@@ -141,7 +143,17 @@ const SignupPage = () => {
               )}
             />
             {errors.confirmPassword && <Text className="text-red-500">{errors.confirmPassword.message}</Text>}
-    
+
+            <Controller
+              control={control}
+              rules={{ required: 'La date de naissance est requise' }}
+              name="dob"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <RNDateTimePicker mode="date" value={value} />
+              )}
+            />
+            {errors.dob && <Text className="text-red-500">{errors.dob.message}</Text>}
+
             <TouchableOpacity onPress={handleSubmit(onSubmit)} className="bg-black py-4 mt-4 rounded-xl flex-row justify-center items-center">
               <Text className="text-white text-lg">
                 Créer
