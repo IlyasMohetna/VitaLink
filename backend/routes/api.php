@@ -22,4 +22,5 @@ Route::controller(LoginRegisterController::class)->group(function() {
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/logout', [LoginRegisterController::class, 'logout']);
+    Route::get('/user/', [LoginRegisterController::class, 'show']);
 });

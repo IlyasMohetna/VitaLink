@@ -105,7 +105,7 @@ const start_call = () => {
 };
 
 const Home = () => {
-  const { user } = useContext(AuthContext);
+  const { user, refreshUserDetails } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedAdvice, setSelectedAdvice] = useState(null);
 
@@ -114,13 +114,15 @@ const Home = () => {
     setModalVisible(true);
   };
 
+  // refreshUserDetails();
+
   return (
     <SafeAreaView>
       <ScrollView>
         <View className="px-4 mt-4">
           <View className=" flex-row">
             <Text className="text-2xl">Bienvenu</Text>
-            <Text className="text-2xl font-bold ml-2">{user?.name}</Text>
+            <Text className="text-2xl font-bold ml-2">{user?.identity?.first_name}</Text>
           </View>
 
           <View>
@@ -159,7 +161,6 @@ const Home = () => {
             <FlatList
               data={specialities}
               horizontal={false}
-              scrollEnabled={false}
               numColumns={3}
               showsHorizontalScrollIndicator={false}
               ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
