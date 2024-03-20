@@ -200,11 +200,11 @@ const SignupPage = () => {
           control={control}
           name="dob"
           rules={{
-            required: "Date of birth is required",
+            required: "La date de naissance est requise",
             validate: {
               minAge: (value) =>
                 calculateAge(value) >= 18 ||
-                "You must be at least 18 years old",
+                "Vous devez avoir au moins 18 ans",
             },
           }}
           render={({ field: { onChange, value } }) => (
