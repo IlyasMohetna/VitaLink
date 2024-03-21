@@ -13,39 +13,17 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   useProtectedRoute(user);
 
-  const refreshUserDetails = () => {
-    if (user) {
-      axiosConfig
-        .get(`/api/user/`, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        })
-        .then((response) => {
-          const user_details = response.data.user;
-          const identity_details = response.data.identity;
-          const updatedUser = {
-            ...user,
-            ...user_details,
-            ...identity_details
-          };
-          setUser(updatedUser);
-          SecureStore.setItemAsync('user', JSON.stringify(updatedUser));
-        })
-        .catch((error) => {
-          console.error('Failed to refresh user details', error);
-          // Handle error (e.g., show a notification, log out if token is invalid, etc.)
-        });
-    }
-  };
+  const [refreshing, setRefreshing] = React.useState(false);
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (nextAppState) => {
-      if (nextAppState === 'active') {
-        refreshUserDetails();
-      }
-    });
+  // useEffect(() => {
+  //   const subscription = AppState.addEventListener('change', (nextAppState) => {
+  //     if (nextAppState === 'active') {
+  //       refreshUserDetails();
+  //     }
+  //   });
 
-    return () => subscription.remove();
-  }, [user]);
+  //   return () => subscription.remove();
+  // }, [user]);
 
   return (
     <AuthContext.Provider
@@ -100,7 +78,32 @@ export const AuthProvider = ({ children }) => {
               setIsLoading(false);
             });
         },
-        refreshUserDetails, // Make this function available to your components
+        refreshUser: () => {
+          setRefreshing(true);
+          if (user) {
+            axiosConfig
+              .get(`/api/user/`, {
+                headers: { Authorization: `Bearer ${user.token}` },
+              })
+              .then((response) => {
+                const identity_details = response.data.identity;
+                const updatedUser = {
+                  token: user.token,
+                  id: response.data.user.id,
+                  email: response.data.user.email,
+                  identity: identity_details
+                };
+                setUser(updatedUser);
+                SecureStore.setItemAsync('user', JSON.stringify(updatedUser));
+                setRefreshing(false);
+              })
+              .catch((error) => {
+                console.error('Failed to refresh user details', error);
+                // Handle error (e.g., show a notification, log out if token is invalid, etc.)
+              });
+          }
+          setRefreshing(false);
+        }, // Make this function available to your components
       }}
     >
       {children}
