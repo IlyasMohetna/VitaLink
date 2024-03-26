@@ -6,20 +6,49 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Avatar } from "react-native-ui-lib";
-import { Link, Redirect, router, useNavigation } from "expo-router";
+import {
+  Link,
+  Redirect,
+  router,
+  useFocusEffect,
+  useNavigation,
+} from "expo-router";
+import axiosConfig from "../../../helpers/axiosConfig";
+
 const Consultations = () => {
   const navigation = useNavigation();
   const [consultations, setConsultations] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
+    if (text && text.length > maxLength) {
       return text.substring(0, maxLength) + "...";
     }
-    return '"' + text + '"';
+    return text;
   };
+
+  const fetchConsultations = useCallback(() => {
+    setLoading(true); // Set loading to true each time we start fetching
+    axiosConfig
+      .get("/api/consultation")
+      .then((response) => {
+        setConsultations(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response);
+        setLoading(false); // Ensure loading is set to false even if there's an error
+      });
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchConsultations();
+    }, [fetchConsultations])
+  );
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
@@ -52,17 +81,17 @@ const Consultations = () => {
                     Categorie : {item.categorie}
                   </Text>
                   <Text className="mt-2 text-sm text-gray-600">
-                    {truncateText(item.symptomes, 150)}
+                    {truncateText(item.symptoms, 150)}
                   </Text>
                 </View>
               </View>
               <View className="flex-row mt-2 items-center justify-between">
                 <View className="flex-grow">
                   <Text className="font-bold text-sm text-gray-500">
-                    Début : {item.debut}
+                    Début : {item.start}
                   </Text>
                   <Text className="font-bold text-sm text-gray-500">
-                    Fin : {item.fin}
+                    Fin : {item.end}
                   </Text>
                 </View>
                 <TouchableOpacity

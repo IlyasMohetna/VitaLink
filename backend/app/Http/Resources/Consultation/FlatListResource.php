@@ -17,9 +17,9 @@ class FlatListResource extends JsonResource
         return [
             'id' =>$this->consul_id,
             'categorie' =>$this->consul_id,
-            'symptomes' =>$this->consul_id,
-            'start' =>$this->consul_id,
-            'end' =>$this->consul_id
+            'symptoms' =>$this->consul_symptoms,
+            'start' =>$this->consul_start_time->format('d/m/Y H:i'),
+            'end' =>$this->consul_end_time->format('d/m/Y H:i')
         ];
     }
 }
