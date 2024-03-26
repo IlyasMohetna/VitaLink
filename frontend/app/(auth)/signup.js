@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Modal,
   Platform,
@@ -9,12 +9,14 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 
 import { useForm, Controller } from "react-hook-form";
 import { AntDesign } from "@expo/vector-icons";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment"; // Assuming you use moment for date formatting and manipulation
+import { AuthContext } from "../../context/AuthProvider";
 
 const SignupPage = () => {
   const {
@@ -24,15 +26,14 @@ const SignupPage = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
+      first_name: "me",
+      last_name: "meme",
+      email: "meme@meme.meme",
+      phone_number: "0763647384",
+      password: "ilyass",
+      password_confirmation: "ilyass",
       dob: new Date(),
     },
-    criteriaMode: "all",
   });
 
   const calculateAge = (dob) => {
@@ -43,7 +44,9 @@ const SignupPage = () => {
 
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const onSubmit = (data) => console.log(data);
+  const { register, error, isLoading } = useContext(AuthContext);
+
+  const onSubmit = (data) => register(data);
 
   const password = watch("password");
 
@@ -53,10 +56,12 @@ const SignupPage = () => {
         <Text className="text-4xl font-bold text-center mt-6 mb-4">
           Créer mon compte
         </Text>
+
+        {error && <Text className="font-bold text-red-500">{error}</Text>}
         <Controller
           control={control}
           rules={{ required: "Le prénom est requis" }}
-          name="firstName"
+          name="first_name"
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               onBlur={onBlur}
@@ -64,19 +69,19 @@ const SignupPage = () => {
               value={value}
               placeholder="Prénom"
               className={`bg-zinc-200 py-4 rounded-xl pl-5 mt-3 ${
-                errors.firstName ? "border-red-500 border-2" : ""
+                errors.first_name ? "border-red-500 border-2" : ""
               }`}
             />
           )}
         />
-        {errors.firstName && (
-          <Text className="text-red-500">{errors.firstName.message}</Text>
+        {errors.first_name && (
+          <Text className="text-red-500">{errors.first_name.message}</Text>
         )}
 
         <Controller
           control={control}
           rules={{ required: "Le nom est requis" }}
-          name="lastName"
+          name="last_name"
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               onBlur={onBlur}
@@ -84,13 +89,13 @@ const SignupPage = () => {
               value={value}
               placeholder="Nom"
               className={`bg-zinc-200 py-4 rounded-xl pl-5 mt-3 ${
-                errors.lastName ? "border-red-500 border-2" : ""
+                errors.last_name ? "border-red-500 border-2" : ""
               }`}
             />
           )}
         />
-        {errors.lastName && (
-          <Text className="text-red-500">{errors.lastName.message}</Text>
+        {errors.last_name && (
+          <Text className="text-red-500">{errors.last_name.message}</Text>
         )}
 
         {/* Email */}
@@ -124,7 +129,7 @@ const SignupPage = () => {
         <Controller
           control={control}
           rules={{ required: "Le numéro de téléphone est requis" }}
-          name="phone"
+          name="phone_number"
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               onBlur={onBlur}
@@ -132,13 +137,13 @@ const SignupPage = () => {
               value={value}
               placeholder="Téléphone"
               className={`bg-zinc-200 py-4 rounded-xl pl-5 mt-3 ${
-                errors.phone ? "border-red-500 border-2" : ""
+                errors.phone_number ? "border-red-500 border-2" : ""
               }`}
             />
           )}
         />
-        {errors.phone && (
-          <Text className="text-red-500">{errors.phone.message}</Text>
+        {errors.phone_number && (
+          <Text className="text-red-500">{errors.phone_number.message}</Text>
         )}
 
         {/* Password */}
@@ -177,7 +182,7 @@ const SignupPage = () => {
             validate: (value) =>
               value === password || "Les mots de passe ne correspondent pas",
           }}
-          name="confirmPassword"
+          name="password_confirmation"
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               onBlur={onBlur}
@@ -187,13 +192,15 @@ const SignupPage = () => {
               placeholder="Confirmer le mot de passe"
               secureTextEntry
               className={`bg-zinc-200 py-4 rounded-xl pl-5 mt-3 ${
-                errors.confirmPassword ? "border-red-500 border-2" : ""
+                errors.password_confirmation ? "border-red-500 border-2" : ""
               }`}
             />
           )}
         />
-        {errors.confirmPassword && (
-          <Text className="text-red-500">{errors.confirmPassword.message}</Text>
+        {errors.password_confirmation && (
+          <Text className="text-red-500">
+            {errors.password_confirmation.message}
+          </Text>
         )}
 
         <Controller
@@ -203,8 +210,7 @@ const SignupPage = () => {
             required: "La date de naissance est requise",
             validate: {
               minAge: (value) =>
-                calculateAge(value) >= 18 ||
-                "Vous devez avoir au moins 18 ans",
+                calculateAge(value) >= 18 || "Vous devez avoir au moins 18 ans",
             },
           }}
           render={({ field: { onChange, value } }) => (
@@ -243,9 +249,10 @@ const SignupPage = () => {
                       mode="date"
                       display={Platform.OS === "ios" ? "spinner" : "default"}
                       onChange={(event, selectedDate) => {
-                        setShowDatePicker(Platform.OS === 'ios');
+                        setShowDatePicker(Platform.OS === "ios");
                         if (selectedDate) {
-                          const formattedDate = moment(selectedDate).toISOString();
+                          const formattedDate =
+                            moment(selectedDate).toISOString();
                           onChange(formattedDate);
                         }
                       }}
@@ -264,13 +271,25 @@ const SignupPage = () => {
           onPress={handleSubmit(onSubmit)}
           className="bg-black py-4 mt-4 rounded-xl flex-row justify-center items-center"
         >
-          <Text className="text-white text-lg">Créer</Text>
-          <AntDesign
-            name="arrowright"
-            size={22}
-            color="white"
-            style={{ marginLeft: 16 }}
-          />
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text className="text-white text-lg">Créer</Text>
+              <AntDesign
+                name="arrowright"
+                size={22}
+                color="white"
+                style={{ marginLeft: 16 }}
+              />
+            </View>
+          )}
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

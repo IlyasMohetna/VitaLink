@@ -25,7 +25,6 @@ const First = () => {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <ActivityIndicator size="large" color="gray" />
         <ActivityIndicator></ActivityIndicator>
-        <Text>FG</Text>
       </View>
     );
   }
