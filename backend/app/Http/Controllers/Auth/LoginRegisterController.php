@@ -106,6 +106,26 @@ class LoginRegisterController extends Controller
     } 
 
     /**
+     * 
+     */
+    public function show(Request $request)
+    {
+        $user = $request->user();
+        if($user->type == 'patient'){
+            $identity = Patient::where('user_id', $user->id)->first();
+        }elseif($user->type == 'doctor'){
+            $identity = Patient::where('user_id', $user->id)->first();
+        }else{
+            dd('stop');
+        }
+
+        $data['user'] = $user;
+        $data['identity'] = $identity;
+
+        return response()->json($data, 200);
+    }
+
+    /**
      * Log out the user from application.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -7,6 +7,7 @@ import {
   Text,
   Virtualizedlist,
   SafeAreaView,
+  RefreshControl
 } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
@@ -105,7 +106,7 @@ const start_call = () => {
 };
 
 const Home = () => {
-  const { user } = useContext(AuthContext);
+  const { user, refreshing, refreshUser } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedAdvice, setSelectedAdvice] = useState(null);
 
@@ -113,14 +114,17 @@ const Home = () => {
     setSelectedAdvice(advice);
     setModalVisible(true);
   };
-
+  
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={refreshUser} />
+      }>
         <View className="px-4 mt-4">
           <View className=" flex-row">
             <Text className="text-2xl">Bienvenu</Text>
-            <Text className="text-2xl font-bold ml-2">{user?.name}</Text>
+            <Text className="text-2xl font-bold ml-2">{user?.identity?.first_name}</Text>
           </View>
 
           <View>
@@ -159,9 +163,9 @@ const Home = () => {
             <FlatList
               data={specialities}
               horizontal={false}
-              scrollEnabled={false}
               numColumns={3}
-              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={false}
               ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
               renderItem={({ item }) => (
                 <View className="mt-2 w-1/3 items-center">

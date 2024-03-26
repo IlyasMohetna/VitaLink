@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import axiosConfig from '../helpers/axiosConfig';
 import { router } from 'expo-router';
 import { useProtectedRoute } from "../hooks/useProtectedRoute";
+import { AppState } from 'react-native'; // Import AppState to listen to app state changes
 
 export const AuthContext = createContext();
 
@@ -11,6 +12,18 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   useProtectedRoute(user);
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  // useEffect(() => {
+  //   const subscription = AppState.addEventListener('change', (nextAppState) => {
+  //     if (nextAppState === 'active') {
+  //       refreshUserDetails();
+  //     }
+  //   });
+
+  //   return () => subscription.remove();
+  // }, [user]);
 
   return (
     <AuthContext.Provider
@@ -28,13 +41,12 @@ export const AuthProvider = ({ children }) => {
               device_name: 'mobile',
             })
             .then(response => {
-              console.log(response.data);
               const userResponse = {
                 token: response.data.data.token,
                 id: response.data.data.user.id,
-                name: response.data.data.user.name,
                 email: response.data.data.user.email,
-                type: response.data.data.user.type
+                type: response.data.data.user.type,
+                identity: response.data.data.identity
               };
               setUser(userResponse);
               setError(null);
@@ -60,13 +72,38 @@ export const AuthProvider = ({ children }) => {
               setIsLoading(false);
             })
             .catch(error => {
-              console.log('here',error);
               setUser(null);
               SecureStore.deleteItemAsync('user');
               setError(error.response.data.message);
               setIsLoading(false);
             });
         },
+        refreshUser: () => {
+          setRefreshing(true);
+          if (user) {
+            axiosConfig
+              .get(`/api/user/`, {
+                headers: { Authorization: `Bearer ${user.token}` },
+              })
+              .then((response) => {
+                const identity_details = response.data.identity;
+                const updatedUser = {
+                  token: user.token,
+                  id: response.data.user.id,
+                  email: response.data.user.email,
+                  identity: identity_details
+                };
+                setUser(updatedUser);
+                SecureStore.setItemAsync('user', JSON.stringify(updatedUser));
+                setRefreshing(false);
+              })
+              .catch((error) => {
+                console.error('Failed to refresh user details', error);
+                // Handle error (e.g., show a notification, log out if token is invalid, etc.)
+              });
+          }
+          setRefreshing(false);
+        }, // Make this function available to your components
       }}
     >
       {children}
