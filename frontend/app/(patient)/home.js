@@ -7,7 +7,7 @@ import {
   Text,
   Virtualizedlist,
   SafeAreaView,
-  RefreshControl
+  RefreshControl,
 } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
@@ -114,17 +114,20 @@ const Home = () => {
     setSelectedAdvice(advice);
     setModalVisible(true);
   };
-  
+
   return (
     <SafeAreaView>
       <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={refreshUser} />
-      }>
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refreshUser} />
+        }
+      >
         <View className="px-4 mt-4">
           <View className=" flex-row">
             <Text className="text-2xl">Bienvenu</Text>
-            <Text className="text-2xl font-bold ml-2">{user?.identity?.first_name}</Text>
+            <Text className="text-2xl font-bold ml-2">
+              {user?.identity?.first_name}
+            </Text>
           </View>
 
           <View>

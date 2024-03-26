@@ -16,7 +16,7 @@ import {
   useNavigation,
 } from "expo-router";
 import axiosConfig from "../../../helpers/axiosConfig";
-
+import SpecialityIcon from "../../../Components/SpecialityIcon";
 const Consultations = () => {
   const navigation = useNavigation();
   const [consultations, setConsultations] = useState(null);
@@ -69,16 +69,13 @@ const Consultations = () => {
           <View className="p-3">
             <View className="bg-white p-4 rounded-lg m-1 shadow">
               <View className="flex-row">
-                <Avatar
-                  className="mr-4 w-40"
-                  source={{
-                    uri: "https://pngimg.com/uploads/doctor/doctor_PNG15992.png",
-                  }}
-                  size={60}
+                <SpecialityIcon
+                  name={item.speciality}
+                  classname="rounded-full justify-center items-center h-16 w-16 shadow-lg"
                 />
                 <View className="flex-1 ml-4">
                   <Text className="text-sm font-bold text-gray-600">
-                    Categorie : {item.categorie}
+                    Spécialité : {item.speciality}
                   </Text>
                   <Text className="mt-2 text-sm text-gray-600">
                     {truncateText(item.symptoms, 150)}
