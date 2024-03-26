@@ -15,13 +15,12 @@ class DetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'consul_id' =>$this->consul_id,
-            'consul_start_time' =>$this->consul_id,
-            'consul_end_time' =>$this->consul_id,
-            'consul_symptoms' =>$this->consul_id,
-            'consul_diagnosis' =>$this->consul_id,
-            'consul_transcribe' =>$this->consul_id,
-            'consul_speciality' =>$this->consul_id
+            'id' =>$this->consul_id,
+            'speciality' =>$this->speciality->speciality_name,
+            'symptoms' =>$this->consul_symptoms,
+            'diagnosis' =>$this->consul_diagnosis,
+            'start' =>$this->consul_start_time->format('d/m/Y H:i'),
+            'end' =>$this->consul_end_time->format('d/m/Y H:i')
         ];
     }
 }

@@ -11,7 +11,7 @@ class ConsultationRepository implements ConsultationRepositoryInterface
     }
 
     public function getById($id){
-       return Consultation::findOrFail($id);
+       return Consultation::with('speciality')->findOrFail($id);
     }
 
     public function store(array $data){

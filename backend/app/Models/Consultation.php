@@ -10,6 +10,7 @@ class Consultation extends Model
 {
     use HasFactory;
     protected $table = 'consultation';
+    protected $primaryKey = 'consul_id';
     protected $guarded = [];
 
     protected function casts(): array

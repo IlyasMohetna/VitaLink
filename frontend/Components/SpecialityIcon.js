@@ -80,7 +80,7 @@ const SpecialityIcon = ({
         " " +
         (backgroundClass ? backgroundClass : speciality.background)
       }`}
-      style={[{ padding: 10, borderRadius: 50 }, containerStyle]}
+      style={[containerStyle]}
     >
       <IconComponent name={speciality.iconName} {...defaultIconProps} />
     </View>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Classes\ApiResponseClass;
 use App\Http\Resources\Consultation\FlatListResource;
+use App\Http\Resources\Consultation\DetailResource;
 use App\Interfaces\ConsultationRepositoryInterface;
 
 class ConsultationController extends Controller
@@ -43,7 +44,7 @@ class ConsultationController extends Controller
     {
         $consultation = $this->consultationRepositoryInterface->getById($id);
 
-        return ApiResponseClass::sendResponse(new FlatListResource($consultation),'',200);
+        return ApiResponseClass::sendResponse(new DetailResource($consultation),'',200);
     }
 
     /**
