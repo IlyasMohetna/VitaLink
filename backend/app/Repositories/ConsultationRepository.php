@@ -7,7 +7,7 @@ use App\Interfaces\ConsultationRepositoryInterface;
 class ConsultationRepository implements ConsultationRepositoryInterface
 {
     public function index(){
-        return Consultation::all();
+        return Consultation::with('speciality')->get();
     }
 
     public function getById($id){

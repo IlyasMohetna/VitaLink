@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Consultation extends Model
 {
@@ -17,5 +18,15 @@ class Consultation extends Model
             'consul_start_time' => 'datetime',
             'consul_end_time' => 'datetime',
         ];
+    }
+
+    /**
+     * Get the user associated with the Consultation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function speciality(): HasOne
+    {
+        return $this->hasOne(Speciality::class, 'speciality_id', 'consul_speciality_id');
     }
 }
