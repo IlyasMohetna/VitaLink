@@ -25,7 +25,7 @@ const Root = () => {
     <Stack>
       <Stack.Screen
         name="(patient)"
-        options={{ headerShown: false, gestureEnabled: false }}
+        options={{ headerShown: false, gestureEnabled: true }}
       />
       <Stack.Screen
         name="(auth)"

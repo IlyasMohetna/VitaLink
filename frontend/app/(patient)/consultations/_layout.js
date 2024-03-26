@@ -1,4 +1,6 @@
 import { Stack } from "expo-router";
+import { Text } from "react-native";
+import { ScreenStackHeaderBackButtonImage } from "react-native-screens";
 
 const Layout = () => {
   return (
@@ -14,7 +16,7 @@ const Layout = () => {
         name="[id]"
         options={{
           headerShown: true,
-          headerTitle: "aa",
+          headerTitle: "",
           headerBackVisible: true,
           headerTintColor: "black",
           headerBackTitle: "Retour",

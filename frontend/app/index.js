@@ -24,7 +24,6 @@ const First = () => {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <ActivityIndicator size="large" color="gray" />
-        <ActivityIndicator></ActivityIndicator>
       </View>
     );
   }
