@@ -8,7 +8,7 @@ use App\Models\Doctor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 class LoginRegisterController extends Controller
@@ -148,7 +148,8 @@ class LoginRegisterController extends Controller
      */
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
+        $user = Auth::user();
+        $user->tokens()->delete();
         return response()->json([
             'status' => 'success',
             'message' => 'User is logged out successfully'
