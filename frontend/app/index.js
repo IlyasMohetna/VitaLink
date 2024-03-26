@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
-import { AuthContext } from '../context/AuthProvider';
+import React, { useContext, useEffect, useState } from "react";
+import { View, ActivityIndicator } from "react-native";
+import * as SecureStore from "expo-secure-store";
+import { AuthContext } from "../context/AuthProvider";
 
 const First = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +24,8 @@ const First = () => {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <ActivityIndicator size="large" color="gray" />
+        <ActivityIndicator></ActivityIndicator>
+        <Text>FG</Text>
       </View>
     );
   }
